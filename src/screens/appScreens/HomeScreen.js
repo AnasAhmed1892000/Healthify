@@ -82,15 +82,13 @@ const HomeScreen = () => {
       if (response.data.status == "success") {
         // dispatch(Loading.setLoading(false));
         // dispatch(Login.setCurrentUser(true));
-        await dispatch(user.setUsername(response.data.patient.name));
-        await dispatch(user.setEmail(response.data.email));
-        await dispatch(user.setPhoneNumber(response.data.phone_number));
+        dispatch(user.setUsername(response.data.patient.name));
+        dispatch(user.setEmail(response.data.email));
+        dispatch(user.setPhoneNumber(response.data.phone_number));
         setResponse(response.data);
-        console.log(Response.photo);
       }
     } catch (error) {
       console.log(error.message);
-      alert(error.message);
       // dispatch(Loading.setLoading(false));
       // dispatch(Login.setCurrentUser(false));
       // if (error.message.includes("401")) {
@@ -107,36 +105,7 @@ const HomeScreen = () => {
       getAppointments();
     }, [])
   );
-  const data = [
-    {
-      name: "DR. Robert Fox",
-      spectiality: "cardiologist",
-      date: "16 Jan ",
-      time: "8:00 PM",
-      id: 1,
-    },
-    {
-      name: "DR. Robert Fox",
-      spectiality: "cardiologist",
-      date: "16 Jan ",
-      time: "8:00 PM",
-      id: 2,
-    },
-    {
-      name: "DR. Robert Fox",
-      spectiality: "cardiologist",
-      date: "16 Jan ",
-      time: "8:00 PM",
-      id: 3,
-    },
-    {
-      name: "DR. Robert Fox",
-      spectiality: "cardiologist",
-      date: "16 Jan ",
-      time: "8:00 PM",
-      id: 4,
-    },
-  ];
+
   return (
     <SafeAreaView style={styles.basicContainer}>
       <ScrollView>
@@ -160,16 +129,18 @@ const HomeScreen = () => {
                 Hello !
               </Text>
 
-              <Text
-                style={{
-                  marginBottom: MarginsAndPaddings.l,
-                  fontSize: 18,
-                  fontWeight: "600",
-                  opacity: 0.7,
-                }}
-              >
-                {name}
-              </Text>
+              {name == null ? null : (
+                <Text
+                  style={{
+                    marginBottom: MarginsAndPaddings.l,
+                    fontSize: 18,
+                    fontWeight: "600",
+                    opacity: 0.7,
+                  }}
+                >
+                  {name}
+                </Text>
+              )}
             </View>
             <View
               style={{
@@ -210,27 +181,30 @@ const HomeScreen = () => {
             />
             {loading ? <ActivityIndicator /> : null}
             <View style={styles.list}>
-              <FlatList
-                data={todaysAppointments}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                renderItem={({ item }) => (
-                  <View
-                    style={{
-                      marginHorizontal: MarginsAndPaddings.l,
-                    }}
-                  >
-                    <Appointment
-                      name={item.doctor_id.name}
-                      date={item.date.split("T")[0]}
-                      time={item.time}
-                      id={item._id}
-                      photo={item.doctor_id.photo}
-                    />
-                  </View>
-                )}
-                keyExtractor={(item) => item.id}
-              />
+              {todaysAppointments.length == 0 ? null : (
+                <FlatList
+                  data={todaysAppointments}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({ item }) => (
+                    <View
+                      style={{
+                        marginHorizontal: MarginsAndPaddings.l,
+                      }}
+                    >
+                      <Appointment
+                        name={item.doctor_id.name}
+                        date={item.date.split("T")[0]}
+                        time={item.time}
+                        id={item._id}
+                        photo={item.doctor_id.photo}
+                      />
+                    </View>
+                  )}
+                  keyExtractor={(item) => item.id}
+                />
+              )}
+
               <Title
                 title="Specialities "
                 seeAll={false}

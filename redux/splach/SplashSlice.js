@@ -7,7 +7,7 @@ export const SplashSlice = createSlice({
   initialState,
   reducers: {
     setIsSplashDone: (state, actions) => {
-      state.isSplashDone = true;
+      state.isSplashDone = actions.payload;
     },
   },
 });

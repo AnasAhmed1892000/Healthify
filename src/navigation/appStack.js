@@ -1,6 +1,6 @@
 import * as React from "react";
-import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
 import SignUpScreen from "../screens/authScreens/signUp/SignUpScreen";
 import HomeScreen from "../screens/appScreens/HomeScreen";
 import BottomTabNavigator from "../components/reusableComponents/BottomTabNavigator";

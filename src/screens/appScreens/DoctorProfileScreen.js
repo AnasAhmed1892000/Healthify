@@ -19,12 +19,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useRoute } from "@react-navigation/native";
 const DoctorProfileScreen = () => {
-  const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
 
   const route = useRoute();
   const { id, favorite } = route.params;
   const [Favorite, setFavorite] = useState(favorite);
+  const [loading, setLoading] = useState(true);
   const [responseByID, setResponseByID] = useState({});
 
   const rateDoctor = async (rate) => {
@@ -320,7 +320,7 @@ const DoctorProfileScreen = () => {
                     fontWeight: "500",
                   }}
                 >
-                  400
+                  200
                 </Text>
                 <Icon name="cash" size={16} color={COLORS.lightBlue} />
               </View>

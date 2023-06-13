@@ -21,7 +21,6 @@ import { Notifications } from "expo-notifications";
 import Title from "../../components/reusableComponents/Title";
 import { BorderRadius, MarginsAndPaddings } from "../../values/dimensions";
 import COLORS from "../../values/colors";
-import { Formik } from "formik";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -29,6 +28,7 @@ import {
   selectPhoneNumber,
   selectUsername,
 } from "../../../redux/user/userSlice";
+import user from "../../../redux/user/userSlice";
 /*
  */
 
@@ -153,6 +153,7 @@ const AccountScreen = () => {
       // getUserData();
     } catch (error) {
       console.log("Error uploading image:", error);
+      alert("Error uploading image:", error);
     }
   };
   useEffect(() => {
@@ -293,6 +294,8 @@ const AccountScreen = () => {
             style={{ flexDirection: "row", alignItems: "center" }}
             onPress={async () => {
               dispatch(Login.setCurrentUser(false));
+              dispatch(user.setRole(null));
+              dispatch(user.setUsername(null));
               const key = "token";
               await AsyncStorage.removeItem(key);
             }}

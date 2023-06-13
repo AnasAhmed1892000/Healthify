@@ -60,7 +60,7 @@ const ForgetPassword1 = () => {
             email: "",
           }}
           onSubmit={(values) => {
-            //resetPasswordFromEmail(values);
+            //resetPasswordFromEmail(values.email);
           }}
         >
           {(props) => {

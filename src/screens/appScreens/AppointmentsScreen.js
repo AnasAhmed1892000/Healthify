@@ -6,46 +6,17 @@ import {
   FlatList,
   ActivityIndicator,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Title from "../../components/reusableComponents/Title";
 import Appointment from "../../components/reusableComponents/Appointment";
 import { MarginsAndPaddings } from "../../values/dimensions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { useFocusEffect } from "@react-navigation/native";
 const AppointmentsScreen = () => {
   const [todaysAppointments, setTodaysAppointments] = useState([]);
   const [upcomingAppointments, setUpcomingAppointments] = useState([]);
   const [loading, setLoading] = useState(false);
-  const data = [
-    {
-      name: "DR. Robert Fox",
-      spectiality: "cardiologist",
-      date: "16 Jan ",
-      time: "8:00 PM",
-      id: 1,
-    },
-    {
-      name: "DR. Robert Fox",
-      spectiality: "cardiologist",
-      date: "16 Jan ",
-      time: "8:00 PM",
-      id: 2,
-    },
-    {
-      name: "DR. Robert Fox",
-      spectiality: "cardiologist",
-      date: "16 Jan ",
-      time: "8:00 PM",
-      id: 3,
-    },
-    {
-      name: "DR. Robert Fox",
-      spectiality: "cardiologist",
-      date: "16 Jan ",
-      time: "8:00 PM",
-      id: 4,
-    },
-  ];
   const getAppointments = async () => {
     const token = await AsyncStorage.getItem("token");
 
@@ -70,9 +41,11 @@ const AppointmentsScreen = () => {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    getAppointments();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getAppointments();
+    }, [])
+  );
   return (
     <SafeAreaView>
       <Title title="Appointments" width={185} height={35} />
@@ -105,8 +78,8 @@ const AppointmentsScreen = () => {
                   name={item.doctor_id.name}
                   date={item.date.split("T")[0]}
                   time={item.time}
-                  id={item._id}
                   photo={item.doctor_id.photo}
+                  id={item._id}
                 />
               </View>
             )}
@@ -136,10 +109,11 @@ const AppointmentsScreen = () => {
                 }}
               >
                 <Appointment
-                  name={item.name}
+                  name={item.doctor_id.name}
                   date={item.date.split("T")[0]}
                   time={item.time}
                   id={item._id}
+                  photo={item.doctor_id.photo}
                 />
               </View>
             )}

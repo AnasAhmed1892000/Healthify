@@ -7,6 +7,7 @@ import { TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 const Appointment = ({ name, date, time, id, photo }) => {
+  //console.log(id);
   const cancelAppointmentByID = async () => {
     const token = await AsyncStorage.getItem("token");
     let config = {

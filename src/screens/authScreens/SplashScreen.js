@@ -5,13 +5,46 @@ import Splash from "../../../redux/splach/SplashSlice";
 import { SafeAreaView } from "react-native";
 import Logo from "../../components/svgs/Logo";
 import Background from "../../components/reusableComponents/Background";
-//import User from '../../redux/user/LoginSlice';
+
+import Login from "../../../redux/user/LoginSlice";
+// import { useAppDispatch } from "../redux/Store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import DoctorStack from "../../navigation/doctorStack";
+import axios from "axios";
 const SplashScreen = () => {
   const dispatch = useDispatch();
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     dispatch(Splash.setIsSplashDone(true));
+  //   }, 2500);
+  // }, []);
+  const currentUserCheck = async () => {
+    const token = await AsyncStorage.getItem("token");
+    console.log(token);
+    token != null
+      ? dispatch(Login.setCurrentUser(true))
+      : dispatch(Login.setCurrentUser(false));
+    // var config = {
+    //   method: "get",
+    //   maxBodyLength: Infinity,
+    //   url: "https://healthify-103r.onrender.com/api/v1/users/ReOpenApp",
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    // };
+    // try {
+    //   const response = await axios(config);
+    //   if (response.data.status == "success") {
+    //     setResponse(response.data);
+    //     console.log(Response.photo);
+    //   }
+    // } catch (error) {
+    //   console.log(error.message);
+    //   alert(error.message);
+    // }
+  };
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(Splash.setIsSplashDone({}));
-    }, 2500);
+    currentUserCheck();
   }, []);
   return (
     <SafeAreaView>

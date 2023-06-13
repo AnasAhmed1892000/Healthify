@@ -28,6 +28,7 @@ import Login from "../../../../redux/user/LoginSlice";
 import axios from "axios";
 import Loading from "../../../../redux/loading/LoadingSlice";
 import { selectIsLoading } from "../../../../redux/loading/LoadingSlice";
+import user from "../../../../redux/user/userSlice";
 /*
  */
 
@@ -60,12 +61,20 @@ const LoginScreen = () => {
       data: data,
     };
     try {
-      const response = await axios(config);
       dispatch(Loading.setLoading(true));
+      const response = await axios(config);
+      await AsyncStorage.setItem("token", response.data.token);
       if (response.data.status == "success") {
         dispatch(Loading.setLoading(false));
         dispatch(Login.setCurrentUser(true));
-        await AsyncStorage.setItem("token", response.data.token);
+        if (response.data.data.user.role == "doctor") {
+          console.log("doctor");
+          await dispatch(user.setRole("doctor"));
+        } else if (response.data.data.user.role == "patient") {
+          console.log("patient");
+          await dispatch(user.setRole("patient"));
+        }
+
         await AsyncStorage.setItem("id", response.data.data.user._id);
       }
     } catch (error) {
@@ -73,7 +82,7 @@ const LoginScreen = () => {
 
       dispatch(Loading.setLoading(false));
       dispatch(Login.setCurrentUser(false));
-      if (error.message.includes("401")) {
+      if (error.response && error.response.status === 401) {
         // Display an error message to the user using an alert or a toast message
         alert("Invalid email or password. Please try again.");
       } else {
