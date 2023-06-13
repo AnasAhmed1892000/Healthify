@@ -22,6 +22,7 @@ import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loading from "../../../redux/loading/LoadingSlice";
 import axios from "axios";
+import * as Location from "expo-location";
 const DetailedSearchBar = () => {
   const select = useSelector;
   const getTag = select(selectIsSpecialityFound);
@@ -29,32 +30,31 @@ const DetailedSearchBar = () => {
   const dispatch = useDispatch();
   const handleSearch = async (searchTerm) => {
     console.log(searchTerm);
-    console.log(searchTerm);
-    console.log(searchTerm);
-    console.log(searchTerm);
-    console.log(searchTerm);
-    console.log(searchTerm);
-    console.log(searchTerm);
-    console.log(searchTerm);
-    console.log(searchTerm);
-    console.log(searchTerm);
+    dispatch(Loading.setLoading(true));
     const token = await AsyncStorage.getItem("token");
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert("Access Denied", "You Should Enable Location Permession", [
+        { text: "OK" },
+      ]);
+    }
+    const location = await Location.getCurrentPositionAsync({});
+    var { latitude, longitude } = location.coords;
     let config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: `https://healthify-103r.onrender.com/api/v1/patients/searchDoctors/${searchTerm}`,
+      url: `https://healthify-103r.onrender.com/api/v1/patients/searchDoctors/${searchTerm}/${latitude},${longitude}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
     };
     try {
-      dispatch(Loading.setLoading(true));
       const response = await axios(config);
-      //console.log(response.data);
+      console.log(response.data);
       dispatch(search.setResponse(response.data.data));
       dispatch(Loading.setLoading(false));
     } catch (error) {
-      console.log(error.message);
+      // console.log(error.message);
       dispatch(Loading.setLoading(false));
     }
   };
