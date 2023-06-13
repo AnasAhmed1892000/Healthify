@@ -253,7 +253,13 @@ const AccountScreen = () => {
           </View>
         </View>
 
-        <View style={{ marginTop: MarginsAndPaddings.ml, flex: 1 }}>
+        <View
+          style={{
+            marginTop: MarginsAndPaddings.ml,
+            flex: 1,
+            marginBottom: MarginsAndPaddings.l,
+          }}
+        >
           <TouchableOpacity
             style={{ flexDirection: "row", alignItems: "center" }}
             onPress={() => navigation.navigate("BMI")}
@@ -286,6 +292,24 @@ const AccountScreen = () => {
                 }}
               >
                 View EMR
+              </Text>
+              {/* <Icon name="ios-calendar" size={18} color={COLORS.white} /> */}
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ flexDirection: "row", alignItems: "center" }}
+            onPress={() => navigation.navigate("MedicineReminders")}
+          >
+            <View style={[styles.btn, { width: screenWidth / 1.2 }]}>
+              <Text
+                style={{
+                  marginRight: MarginsAndPaddings.l,
+                  fontSize: 18,
+                  color: COLORS.white,
+                  fontWeight: "600",
+                }}
+              >
+                Medicine Reminders
               </Text>
               {/* <Icon name="ios-calendar" size={18} color={COLORS.white} /> */}
             </View>

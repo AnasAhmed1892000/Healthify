@@ -11,6 +11,7 @@ import BMIScreen from "../screens/appScreens/BMIScreen";
 import EMRScreen from "../screens/appScreens/EMRScreen";
 import DoctorEmrScreen from "../screens/appScreens/DoctorEmrScreen";
 import MedicalRecordScreen from "../screens/appScreens/MedicalRecordScreen";
+import MedicineRemindersScreen from "../screens/appScreens/MedicineRemindersScreen";
 const stack = createNativeStackNavigator();
 const AppStack = () => {
   return (
@@ -60,6 +61,13 @@ const AppStack = () => {
       <stack.Screen
         name="MedicalRecords"
         component={MedicalRecordScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <stack.Screen
+        name="MedicineReminders"
+        component={MedicineRemindersScreen}
         options={{
           headerShown: false,
         }}
